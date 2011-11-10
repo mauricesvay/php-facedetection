@@ -108,12 +108,12 @@ class Face_Detector {
             $ii2[$i] = 0;
         }                        
                                     
-        for($i=1; $i<$ii_w-1; $i++ ){  
+        for($i=1; $i<$ii_h-1; $i++ ){  
             $ii[$i*$ii_w] = 0;       
             $ii2[$i*$ii_w] = 0; 
             $rowsum = 0;
             $rowsum2 = 0;
-            for($j=1; $j<$ii_h-1; $j++ ){
+            for($j=1; $j<$ii_w-1; $j++ ){
                 $rgb = ImageColorAt($canvas, $j, $i);
                 $red = ($rgb >> 16) & 0xFF;
                 $green = ($rgb >> 8) & 0xFF;
