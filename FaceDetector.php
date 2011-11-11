@@ -35,11 +35,16 @@ class Face_Detector {
     }
     
     public function face_detect($file) {
-        if (!is_file($file)) {
+        if (is_resource($file)) {
+            $this->canvas = $file;
+        }
+        elseif (is_file($file)) {
+            $this->canvas = imagecreatefromjpeg($file);
+        }
+        else {
             throw new Exception("Can not load $file");
         }
         
-        $this->canvas = imagecreatefromjpeg($file);
         $im_width = imagesx($this->canvas);
         $im_height = imagesy($this->canvas);
 
@@ -59,9 +64,11 @@ class Face_Detector {
             
             $stats = $this->get_img_stats($this->reduced_canvas);
             $this->face = $this->do_detect_greedy_big_to_small($stats['ii'], $stats['ii2'], $stats['width'], $stats['height']);
-            $this->face['x'] *= $ratio;
-            $this->face['y'] *= $ratio;
-            $this->face['w'] *= $ratio;
+            if ($this->face['w'] > 0) {
+                $this->face['x'] *= $ratio;
+                $this->face['y'] *= $ratio;
+                $this->face['w'] *= $ratio;
+            }
         } else {
             $stats = $this->get_img_stats($this->canvas);
             $this->face = $this->do_detect_greedy_big_to_small($stats['ii'], $stats['ii2'], $stats['width'], $stats['height']);
