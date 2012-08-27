@@ -14,6 +14,7 @@ $face = new sfFaceThumbPlugin()
 if($face->process())
 {
 	//face found in image found and resized
+	echo '<img src="'.$face->getOutput().'" heigth="'.$face->getDimension('height').'" width="'.$face->getDimension('width').'" />";
 }else{
 	//face not found in image
 }
