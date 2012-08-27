@@ -38,8 +38,13 @@ class sfFaceThumbPlugin
 	{
 		return $this->outputPath;
 	}
-	
-	public function getDimension(string $dimension)
+	/**
+	* Returns the dimension of the new image, by no input the image will return a array
+	*
+	* @param String dimension Give the type of dimension (height,width, none) by none the function wil return a array with both
+	* @return mixed int/array
+	*/
+	public function getDimension(string $dimension = 'none')
 	{
 		$return = array();
 		
