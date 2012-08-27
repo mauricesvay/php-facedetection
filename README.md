@@ -1,14 +1,15 @@
 sfFaceThumbPlugin
 =================
 
-This plugin find faces in photo's and resize it to a normal format. It is based on the php class of Maurice Vay https://github.com/mauricesvay/php-facedetection
+This plugin find faces in photo's and resize it to a thumbnail format. It is based on the php class of Maurice Vay https://github.com/mauricesvay/php-facedetection
 
 Example
 -------
+```php
 $face = new sfFaceThumbPlugin()
-				->setDimension(300,300)
-				->setSource('/upload/source.jpg')
-				->setOutput('/upload/output.jpg');
+			->setDimension(300,300)
+			->setSource('/upload/source.jpg')
+			->setOutput('/upload/output.jpg');
 
 if($face->process())
 {
@@ -16,7 +17,7 @@ if($face->process())
 }else{
 	//face not found in image
 }
-
+```
 Requirements
 ------------
 PHP5 with GD
