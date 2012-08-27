@@ -1,7 +1,21 @@
-PHP Face Detection
-==================
+sfFaceThumbPlugin
+=================
 
-This class detect one face in images. This is a pure PHP port of an existing JS code from Karthik Tharavaad.
+This plugin find faces in photo's and resize it to a normal format. It is based on the php class of Maurice Vay https://github.com/mauricesvay/php-facedetection
+
+Example
+-------
+$face = new sfFaceThumbPlugin()
+				->setDimension(300,300)
+				->setSource('/upload/source.jpg')
+				->setOutput('/upload/output.jpg');
+
+if($face->process())
+{
+	//face found in image found and resized
+}else{
+	//face not found in image
+}
 
 Requirements
 ------------
