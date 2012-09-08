@@ -85,7 +85,7 @@ class Face_Detector {
     }
     
     public function toJson() {
-        return "{'x':" . $this->face['x'] . ", 'y':" . $this->face['y'] . ", 'w':" . $this->face['w'] . "}";
+        return json_encode($this->face);
     }
     
     public function getFace() {
