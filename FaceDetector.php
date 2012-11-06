@@ -25,13 +25,15 @@ class Face_Detector {
     protected $canvas;
     protected $face;
     private $reduced_canvas;
+    private $max_duration;
     
-    public function __construct($detection_file = 'detection.dat') {
+    public function __construct($detection_file = 'detection.dat',$max_duration=5) {
         if (is_file($detection_file)) {
             $this->detection_data = unserialize(file_get_contents($detection_file));
         } else {
             throw new Exception("Couldn't load detection data");
         }
+        $this->max_duration = $max_duration;
     }
     
     public function face_detect($file) {
@@ -144,20 +146,27 @@ class Face_Detector {
         $s_h = $height/20.0;
         $start_scale = $s_h < $s_w ? $s_h : $s_w;
         $scale_update = 1 / 1.2;
+        $startTimestamp = time();
         for($scale = $start_scale; $scale > 1; $scale *= $scale_update ){
-            $w = (20*$scale) >> 0;
-            $endx = $width - $w - 1;
-            $endy = $height - $w - 1;
-            $step = max( $scale, 2 ) >> 0;
-            $inv_area = 1 / ($w*$w);
-            for($y = 0; $y < $endy ; $y += $step ){
-                for($x = 0; $x < $endx ; $x += $step ){
-                    $passed = $this->detect_on_sub_image( $x, $y, $scale, $ii, $ii2, $w, $width+1, $inv_area);
-                    if( $passed ) {
-                        return array('x'=>$x, 'y'=>$y, 'w'=>$w);
-                    }
-                } // end x
-            } // end y
+            if($actualTimestamp - $startTimestamp <= $this->max_duration) {
+                $actualTimestamp = time();
+                $w = (20*$scale) >> 0;
+                $endx = $width - $w - 1;
+                $endy = $height - $w - 1;
+                $step = max( $scale, 2 ) >> 0;
+                $inv_area = 1 / ($w*$w);
+                for($y = 0; $y < $endy ; $y += $step ){
+                    for($x = 0; $x < $endx ; $x += $step ){
+                        $passed = $this->detect_on_sub_image( $x, $y, $scale, $ii, $ii2, $w, $width+1, $inv_area);
+                        if( $passed ) {
+                            return array('x'=>$x, 'y'=>$y, 'w'=>$w);
+                        }
+                    } // end x
+                } // end y
+            }
+            else {
+                break;
+            }
         }  // end scale
         return null;
     }
