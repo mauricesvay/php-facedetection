@@ -26,6 +26,9 @@ class Face_Detector {
     protected $face;
     private $reduced_canvas;
     
+    protected $timeout = null;
+    protected $time_start;
+    
     public function __construct($detection_file = 'detection.dat') {
         if (is_file($detection_file)) {
             $this->detection_data = unserialize(file_get_contents($detection_file));
@@ -34,7 +37,13 @@ class Face_Detector {
         }
     }
     
+    public function set_timeout($micro_seconds) {
+        $this->timeout = $micro_seconds;    
+    }
+    
     public function face_detect($file) {
+        $this->time_start = microtime();
+        
         if (is_resource($file)) {
             $this->canvas = $file;
         }
@@ -145,6 +154,9 @@ class Face_Detector {
         $start_scale = $s_h < $s_w ? $s_h : $s_w;
         $scale_update = 1 / 1.2;
         for($scale = $start_scale; $scale > 1; $scale *= $scale_update ){
+            if ($this->timeout && microtime() - $this->time_start > $this->timeout) {
+                throw new Exception("Face dectection has timed out")
+            }
             $w = (20*$scale) >> 0;
             $endx = $width - $w - 1;
             $endy = $height - $w - 1;
