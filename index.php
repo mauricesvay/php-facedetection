@@ -2,6 +2,6 @@
 
 include "FaceDetector.php";
 
-$detector = new Face_Detector('detection.dat');
-$detector->face_detect('lena512color.jpg');
+$detector = new svay\FaceDetector('detection.dat');
+$detector->faceDetect('lena512color.jpg');
 $detector->toJpeg();
