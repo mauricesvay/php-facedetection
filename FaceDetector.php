@@ -29,12 +29,13 @@ class FaceDetector
     protected $face;
     private $reduced_canvas;
 
-    public function __construct($detection_file = 'detection.dat')
+    public function __construct()
     {
+        $detection_file = (__DIR__).'/detection.dat';        
         if (is_file($detection_file)) {
             $this->detection_data = unserialize(file_get_contents($detection_file));
         } else {
-            throw new Exception("Couldn't load detection data");
+            throw new \Exception("Couldn't load detection data");
         }
     }
 
