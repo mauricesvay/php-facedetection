@@ -29,13 +29,31 @@ class FaceDetector
     protected $face;
     private $reduced_canvas;
 
-    public function __construct($detection_file = 'detection.dat')
+    /**
+     * Creates a face-detector with the given configuration
+     * 
+     * Configuration can be either passed as an array or as
+     * a filepath to a serialized array file-dump
+     * 
+     * @param string|array $detection_data
+     */
+    public function __construct($detection_data = 'detection.dat')
     {
-        if (is_file($detection_file)) {
-            $this->detection_data = unserialize(file_get_contents($detection_file));
-        } else {
-            throw new Exception("Couldn't load detection data");
+        if (is_array($detection_data)) {
+            $this->detection_data = $detection_data;
+            return;
         }
+    
+        if (!is_file($detection_data)) {
+            // fallback to same file in this class's directory
+            $detection_data = dirname(__FILE__) . DIRECTORY_SEPARATOR . $detection_data;
+            
+            if (!is_file($detection_data)) {
+                throw new \Exception("Couldn't load detection data");
+            }
+        }
+        
+        $this->detection_data = unserialize(file_get_contents($detection_data));
     }
 
     public function faceDetect($file)
