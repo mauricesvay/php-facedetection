@@ -240,14 +240,18 @@ class FaceDetector
 
         $vnorm = $vnorm > 1 ? sqrt($vnorm) : 1;
 
-        for ($i_stage = 0; $i_stage < count($this->detection_data); $i_stage++) {
+        $count_data = count($this->detection_data);
+
+        for ($i_stage = 0; $i_stage < $count_data; $i_stage++) {
             $stage = $this->detection_data[$i_stage];
             $trees = $stage[0];
 
             $stage_thresh = $stage[1];
             $stage_sum = 0;
 
-            for ($i_tree = 0; $i_tree < count($trees); $i_tree++) {
+            $count_trees = count($trees);
+
+            for ($i_tree = 0; $i_tree < $count_trees; $i_tree++) {
                 $tree = $trees[$i_tree];
                 $current_node = $tree[0];
                 $tree_sum = 0;
@@ -261,7 +265,9 @@ class FaceDetector
                     $rects = $current_node[1];
 
                     $rect_sum = 0;
-                    for ($i_rect = 0; $i_rect < count($rects); $i_rect++) {
+                    $count_rects = count($rects);
+
+                    for ($i_rect = 0; $i_rect < $count_rects; $i_rect++) {
                         $s = $scale;
                         $rect = $rects[$i_rect];
                         $rx = ($rect[0]*$s+$x)>>0;
