@@ -75,7 +75,6 @@ class FaceDetector
         $im_height = imagesy($this->canvas);
 
         //Resample before detection?
-        $ratio = 0;
         $diff_width = 320 - $im_width;
         $diff_height = 240 - $im_height;
         if ($diff_width > $diff_height) {
