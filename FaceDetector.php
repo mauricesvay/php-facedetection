@@ -21,6 +21,8 @@
 
 namespace svay;
 
+use Exception;
+
 class FaceDetector
 {
 
