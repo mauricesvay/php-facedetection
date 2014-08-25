@@ -238,7 +238,6 @@ class FaceDetector
 
         $vnorm = $vnorm > 1 ? sqrt($vnorm) : 1;
 
-        $passed = true;
         for ($i_stage = 0; $i_stage < count($this->detection_data); $i_stage++) {
             $stage = $this->detection_data[$i_stage];
             $trees = $stage[0];
