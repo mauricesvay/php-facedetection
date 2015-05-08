@@ -1,8 +1,8 @@
 {
-    "name": "marcelomx/php-facedetection",
+    "name": "mauricesvay/php-facedetection",
     "description": "PHP class to detect one face in images. A pure PHP port of an existing JS code from Karthik Tharavad.",
     "license": "GPL-2.0",
-    "homepage": "https://github.com/mauricesvay/php-facedetection",    
+    "homepage": "https://github.com/mauricesvay/php-facedetection",
     "authors": [
         {
             "name": "Maurice Svay",
