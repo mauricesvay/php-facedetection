@@ -68,6 +68,10 @@ class FaceDetector
 
             $this->canvas = imagecreatefromjpeg($file);
 
+        } elseif (is_string($file)) {
+
+            $this->canvas = imagecreatefromstring($file);
+            
         } else {
 
             throw new Exception("Can not load $file");
