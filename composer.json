@@ -14,6 +14,6 @@
         "ext-gd": "*"
     },
     "autoload": {
-        "classmap": ["FaceDetector.php"]
+        "classmap": ["FaceDetector.php", "Exception/"]
     }
 }

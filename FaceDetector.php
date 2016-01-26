@@ -22,6 +22,7 @@
 namespace svay;
 
 use Exception;
+use svay\Exception\NoFaceException;
 
 class FaceDetector
 {
@@ -33,11 +34,13 @@ class FaceDetector
 
     /**
      * Creates a face-detector with the given configuration
-     * 
+     *
      * Configuration can be either passed as an array or as
      * a filepath to a serialized array file-dump
-     * 
+     *
      * @param string|array $detection_data
+     *
+     * @throws Exception
      */
     public function __construct($detection_data = 'detection.dat')
     {
@@ -148,6 +151,31 @@ class FaceDetector
 
         header('Content-type: image/jpeg');
         imagejpeg($this->canvas);
+    }
+
+    /**
+     * Crops the face from the photo.
+     * Should be called after `faceDetect` function call
+     * If file is provided, the face will be stored in file, other way it will be output to standard output.
+     *
+     * @param string|null $outFileName file name to store. If null, will be printed to output
+     *
+     * @throws NoFaceException
+     */
+    public function cropFaceToJpeg($outFileName = null)
+    {
+        if (empty($this->face)) {
+            throw new NoFaceException('No face detected');
+        }
+
+        $canvas = imagecreatetruecolor($this->face['w'], $this->face['w']);
+        imagecopy($canvas, $this->canvas, 0, 0, $this->face['x'], $this->face['y'], $this->face['w'], $this->face['w']);
+
+        if ($outFileName === null) {
+            header('Content-type: image/jpeg');
+        }
+
+        imagejpeg($canvas, $outFileName);
     }
 
     public function toJson()
