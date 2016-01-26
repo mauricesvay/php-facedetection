@@ -188,6 +188,13 @@ class FaceDetector
         return $this->face;
     }
 
+    public function cropFaceToJpeg() {
+        $canvas = imagecreatetruecolor($this->face['w'], $this->face['w']);
+        imagecopy($canvas, $this->canvas, 0, 0, $this->face['x'], $this->face['x'], $this->face['w'], $this->face['w']);
+        header('Content-type: image/jpeg');
+        imagejpeg($canvas);
+    }
+
     protected function getImgStats($canvas)
     {
         $image_width = imagesx($canvas);
