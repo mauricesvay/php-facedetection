@@ -48,16 +48,16 @@ class FaceDetector
             $this->detection_data = $detection_data;
             return;
         }
-    
+
         if (!is_file($detection_data)) {
             // fallback to same file in this class's directory
             $detection_data = dirname(__FILE__) . DIRECTORY_SEPARATOR . $detection_data;
-            
+
             if (!is_file($detection_data)) {
                 throw new \Exception("Couldn't load detection data");
             }
         }
-        
+
         $this->detection_data = unserialize(file_get_contents($detection_data));
     }
 
@@ -74,7 +74,7 @@ class FaceDetector
         } elseif (is_string($file)) {
 
             $this->canvas = imagecreatefromstring($file);
-            
+
         } else {
 
             throw new Exception("Can not load $file");
@@ -168,8 +168,15 @@ class FaceDetector
             throw new NoFaceException('No face detected');
         }
 
-        $canvas = imagecreatetruecolor($this->face['w'], $this->face['w']);
-        imagecopy($canvas, $this->canvas, 0, 0, $this->face['x'], $this->face['y'], $this->face['w'], $this->face['w']);
+        $x = ($a = $this->face['x'] - $this->face['w']/2) > 0 ? $a : 0;
+        $y = ($b = $this->face['y'] - $this->face['w']/2) > 0 ? $b : 0;
+        $im_width = imagesx($this->canvas);
+        $im_height = imagesy($this->canvas);
+        $w = ($w = $this->face['w']*2) > $im_width ? $im_width : $w;
+        $h = ($h = $w) > $im_height ? $im_height : $h;
+
+        $canvas = imagecreatetruecolor($w, $h);
+        imagecopy($canvas, $this->canvas, 0, 0, $x, $y, $w, $h);
 
         if ($outFileName === null) {
             header('Content-type: image/jpeg');
