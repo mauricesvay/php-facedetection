@@ -79,6 +79,16 @@ class FaceDetector
 
             throw new Exception("Can not load $file");
         }
+        
+        $sharpen = array(
+            array(0.0, -1.0, 0.0),
+            array(-1.0, 5.0, -1.0),
+            array(0.0, -1.0, 0.0)
+        );
+
+        $divisor = array_sum(array_map('array_sum', $sharpen));
+
+        imageconvolution($this->canvas, $sharpen, $divisor, 0);
 
         $im_width = imagesx($this->canvas);
         $im_height = imagesy($this->canvas);
