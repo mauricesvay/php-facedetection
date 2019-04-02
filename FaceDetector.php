@@ -175,7 +175,7 @@ class FaceDetector
         }else{
             imagecopyresized($canvas , $this->canvas, 0, 0, $this->face['x'], $this->face['y'], $width, $height, $this->face['w'], $this->face['w']);
         }
-        
+
         if ($outFileName === null) {
             header('Content-type: image/jpeg');
         }
