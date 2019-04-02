@@ -48,16 +48,16 @@ class FaceDetector
             $this->detection_data = $detection_data;
             return;
         }
-    
+
         if (!is_file($detection_data)) {
             // fallback to same file in this class's directory
             $detection_data = dirname(__FILE__) . DIRECTORY_SEPARATOR . $detection_data;
-            
+
             if (!is_file($detection_data)) {
                 throw new \Exception("Couldn't load detection data");
             }
         }
-        
+
         $this->detection_data = unserialize(file_get_contents($detection_data));
     }
 
@@ -74,7 +74,7 @@ class FaceDetector
         } elseif (is_string($file)) {
 
             $this->canvas = imagecreatefromstring($file);
-            
+
         } else {
 
             throw new Exception("Can not load $file");
@@ -162,15 +162,20 @@ class FaceDetector
      *
      * @throws NoFaceException
      */
-    public function cropFaceToJpeg($outFileName = null)
+    public function cropFaceToJpeg($outFileName = null, $resize = false, $width = 200, $height = 200)
     {
         if (empty($this->face)) {
             throw new NoFaceException('No face detected');
         }
 
         $canvas = imagecreatetruecolor($this->face['w'], $this->face['w']);
-        imagecopy($canvas, $this->canvas, 0, 0, $this->face['x'], $this->face['y'], $this->face['w'], $this->face['w']);
 
+        if(!$resize){
+            imagecopy($canvas, $this->canvas, 0, 0, $this->face['x'], $this->face['y'], $this->face['w'], $this->face['w']);
+        }else{
+            imagecopyresized($canvas , $this->canvas, 0, 0, $this->face['x'], $this->face['y'], $width, $height, $this->face['w'], $this->face['w']);
+        }
+        
         if ($outFileName === null) {
             header('Content-type: image/jpeg');
         }
