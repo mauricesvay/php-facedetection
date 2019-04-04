@@ -159,6 +159,9 @@ class FaceDetector
      * If file is provided, the face will be stored in file, other way it will be output to standard output.
      *
      * @param string|null $outFileName file name to store. If null, will be printed to output
+     * @param boolean|false $resize resize crop image.
+     * @param int $width widht of new crop image. $resize value must 'true'. default to 200
+     * @param int $height height of new crop image. $resize value must 'true'. default to 200
      *
      * @throws NoFaceException
      */
