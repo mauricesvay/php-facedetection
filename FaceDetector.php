@@ -171,16 +171,13 @@ class FaceDetector
             throw new NoFaceException('No face detected');
         }
 
-        $canvas = imagecreatetruecolor($this->face['w'], $this->face['w']);
 
         if (!$resize) {
-
+            $canvas = imagecreatetruecolor($this->face['w'], $this->face['w']);
             imagecopy($canvas, $this->canvas, 0, 0, $this->face['x'], $this->face['y'], $this->face['w'], $this->face['w']);
-
         } else {
-
+            $canvas = imagecreatetruecolor($width, $height);
             imagecopyresized($canvas , $this->canvas, 0, 0, $this->face['x'], $this->face['y'], $width, $height, $this->face['w'], $this->face['w']);
-
         }
 
         if ($outFileName === null) {
