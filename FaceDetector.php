@@ -42,7 +42,7 @@ class FaceDetector
      *
      * @throws Exception
      */
-    public function __construct($detection_data = 'detection.dat')
+    public function __construct($detection_data = 'detection.json')
     {
         if (is_array($detection_data)) {
             $this->detection_data = $detection_data;
@@ -58,7 +58,7 @@ class FaceDetector
             }
         }
 
-        $this->detection_data = unserialize(file_get_contents($detection_data));
+        $this->detection_data = json_decode(file_get_contents($detection_data));
     }
 
     public function faceDetect($file)
